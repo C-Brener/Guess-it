@@ -37,13 +37,14 @@ class GameFragment : Fragment() {
         )
         viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
 
+        binding.gameViewModel = viewModel
 
-        binding.correctButton.setOnClickListener {
-            viewModel.onCorrect()
-        }
-        binding.skipButton.setOnClickListener {
-            viewModel.onSkip()
-        }
+//        binding.correctButton.setOnClickListener {
+//            viewModel.onCorrect()
+//        }
+//        binding.skipButton.setOnClickListener {
+//            viewModel.onSkip()
+//        }
 
         viewModel.scoreLiveData.observe(viewLifecycleOwner, Observer { scoreText ->
             binding.scoreText.text = scoreText.toString()
@@ -53,8 +54,8 @@ class GameFragment : Fragment() {
             binding.wordText.text = nextWord.toString()
 
         })
-        viewModel.eventGameFinish.observe(viewLifecycleOwner, Observer{
-            if (it){
+        viewModel.eventGameFinish.observe(viewLifecycleOwner, Observer{ eventGameFinish ->
+            if (eventGameFinish){
                 val currentPoints = viewModel.scoreLiveData.value?:0
                 gameFinished(currentPoints)
             }
