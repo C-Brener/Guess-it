@@ -1,6 +1,7 @@
 
 package com.example.android.guesstheword.screens.game.ui
 
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,9 +15,6 @@ import com.example.android.guesstheword.R
 import com.example.android.guesstheword.databinding.GameFragmentBinding
 import com.example.android.guesstheword.screens.game.viewModel.GameViewModel
 
-/**
- * Fragment where the game is played
- */
 class GameFragment : Fragment() {
     private lateinit var viewModel: GameViewModel
 
@@ -40,39 +38,19 @@ class GameFragment : Fragment() {
         binding.gameViewModel = viewModel
         binding.lifecycleOwner = this
 
-//        binding.correctButton.setOnClickListener {
-//            viewModel.onCorrect()
-//        }
-//        binding.skipButton.setOnClickListener {
-//            viewModel.onSkip()
-//        }
 
-        viewModel.scoreLiveData.observe(viewLifecycleOwner, Observer { scoreText ->
-            binding.scoreText.text = scoreText.toString()
-
-        })
-        viewModel.wordLiveData.observe(viewLifecycleOwner, Observer { nextWord ->
-            binding.wordText.text = nextWord.toString()
-
-        })
         viewModel.eventGameFinish.observe(viewLifecycleOwner, Observer{ eventGameFinish ->
             if (eventGameFinish){
                 val currentPoints = viewModel.scoreLiveData.value?:0
                 gameFinished(currentPoints)
             }
         })
-        viewModel.currentTime.observe(viewLifecycleOwner, Observer {
-            binding.timerText.text = viewModel.currentTime.value.toString()
-        })
+
+
 
         return binding.root
 
     }
-
-    /**
-     * Resets the list of words and randomizes the order
-     */
-
 
     /**
      * Called when the game is finished
@@ -82,12 +60,5 @@ class GameFragment : Fragment() {
         findNavController(this).navigate(action)
         viewModel.onGameFinishComplete()
     }
-
-    /**
-     * Moves to the next word in the list
-     */
-
-    /** Methods for updating the UI **/
-
 
 }
